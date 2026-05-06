@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projets - Mathis Quelen</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #00f0ff;
+      --secondary: #7000ff;
+      --accent: #ff006e;
+      --dark: #0a0e27;
+      --darker: #050816;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--darker);
+      color: #fff;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Animated Background */
+    .bg-animation {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: linear-gradient(45deg, var(--darker) 0%, var(--dark) 100%);
+    }
+
+    .bg-animation::before {
+      content: '';
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, var(--primary) 1px, transparent 1px);
+      background-size: 50px 50px;
+      animation: gridMove 20s linear infinite;
+      opacity: 0.1;
+    }
+
+    @keyframes gridMove {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(50px, 50px); }
+    }
+
+    /* Floating particles */
+    .particle {
+      position: fixed;
+      width: 4px;
+      height: 4px;
+      background: var(--primary);
+      border-radius: 50%;
+      pointer-events: none;
+      animation: float 15s infinite;
+      opacity: 0.6;
+      box-shadow: 0 0 10px var(--primary);
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) translateX(0); }
+      25% { transform: translateY(-100px) translateX(50px); }
+      50% { transform: translateY(-200px) translateX(-50px); }
+      75% { transform: translateY(-100px) translateX(100px); }
+    }
+
+    /* Header */
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      padding: 20px 50px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      background: rgba(10, 14, 39, 0.8);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(0, 240, 255, 0.2);
+      animation: slideDown 0.8s ease;
+    }
+
+    @keyframes slideDown {
+      from { transform: translateY(-100%); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    header h1 {
+      font-size: 1.8rem;
+      background: linear-gradient(45deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      position: relative;
+    }
+
+    header h1::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 50%;
+      height: 2px;
+      background: var(--primary);
+      animation: underlineExpand 2s ease infinite;
+    }
+
+    @keyframes underlineExpand {
+      0%, 100% { width: 50%; }
+      50% { width: 100%; }
+    }
+
+    nav ul {
+      display: flex;
+      gap: 30px;
+      list-style: none;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      position: relative;
+      padding: 5px 15px;
+      transition: all 0.3s;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+    }
+
+    nav a::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 2px solid var(--primary);
+      transform: scale(0);
+      transition: transform 0.3s;
+      opacity: 0;
+    }
+
+    nav a:hover::before {
+      transform: scale(1);
+      opacity: 1;
+    }
+
+    nav a:hover {
+      color: var(--primary);
+      text-shadow: 0 0 10px var(--primary);
+    }
+
+    /* Main Content */
+    main {
+      margin-top: 120px;
+      padding: 50px;
+      min-height: 100vh;
+    }
+
+    /* Page Title */
+    .page-title {
+      text-align: center;
+      font-size: 4rem;
+      margin-bottom: 20px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-transform: uppercase;
+      letter-spacing: 5px;
+      animation: fadeInUp 1s ease;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(50px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .page-subtitle {
+      text-align: center;
+      font-size: 1.2rem;
+      color: rgba(255, 255, 255, 0.6);
+      margin-bottom: 80px;
+      animation: fadeInUp 1s ease 0.2s both;
+    }
+
+    /* Projects Grid */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+      animation: fadeInUp 1s ease 0.4s both;
+    }
+
+    .project-card {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(0, 240, 255, 0.2);
+      border-radius: 20px;
+      padding: 40px;
+      transition: all 0.4s;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.1), transparent);
+      transition: left 0.5s;
+    }
+
+    .project-card:hover::before {
+      left: 100%;
+    }
+
+    .project-card:hover {
+      transform: translateY(-15px) scale(1.03);
+      box-shadow: 0 25px 60px rgba(0, 240, 255, 0.4);
+      border-color: var(--primary);
+    }
+
+    .project-icon {
+      font-size: 4rem;
+      margin-bottom: 25px;
+      display: inline-block;
+      animation: bounce 2s ease-in-out infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .project-card h3 {
+      font-size: 2rem;
+      color: var(--primary);
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .project-card p {
+      color: rgba(255, 255, 255, 0.8);
+      line-height: 1.8;
+      font-size: 1.1rem;
+    }
+
+    .project-card .project-tech {
+      margin-top: 25px;
+      padding-top: 25px;
+      border-top: 1px solid rgba(0, 240, 255, 0.2);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .tech-tag {
+      background: rgba(0, 240, 255, 0.1);
+      border: 1px solid var(--primary);
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      color: var(--primary);
+      transition: all 0.3s;
+    }
+
+    .tech-tag:hover {
+      background: var(--primary);
+      color: var(--darker);
+      transform: scale(1.1);
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 30px;
+      background: rgba(10, 14, 39, 0.8);
+      backdrop-filter: blur(10px);
+      border-top: 1px solid rgba(0, 240, 255, 0.2);
+      margin-top: 100px;
+    }
+
+    footer p {
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.9rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      header {
+        padding: 15px 20px;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      nav ul {
+        gap: 15px;
+      }
+
+      main {
+        padding: 20px;
+      }
+
+      .page-title {
+        font-size: 2.5rem;
+      }
+
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-animation"></div>
+  
+  <!-- Particles -->
+  <div class="particle" style="top: 10%; left: 20%; animation-delay: 0s;"></div>
+  <div class="particle" style="top: 30%; left: 80%; animation-delay: 2s;"></div>
+  <div class="particle" style="top: 60%; left: 10%; animation-delay: 4s;"></div>
+  <div class="particle" style="top: 80%; left: 70%; animation-delay: 6s;"></div>
+  <div class="particle" style="top: 40%; left: 50%; animation-delay: 3s;"></div>
+
+  <header>
+    <h1>Mes Projets</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="projets.html">Projets</a></li>
+        <li><a href="competences.html">Compétences</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="parcours.html">Mon parcours</a></li>
+        <li><a href="fiche-suivis.html">Fiche de suivis</a></li>
+        <li><a href="veilletechno.html">Veille technologique</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <h1 class="page-title">Mes Projets</h1>
+    <p class="page-subtitle">Découvrez mes réalisations et applications développées</p>
+
+        <div class="projects-grid">
+      <div class="project-card">
+        <div class="project-icon">&#127958;</div>
+        <h3>MTConge</h3>
+        <p>Application de gestion de conges developpee pour optimiser la planification et le suivi des absences. Interface intuitive avec systeme de notifications integre pour faciliter la communication entre employes et managers.</p>
+        <div class="project-tech">
+          <span class="tech-tag">Java</span>
+          <span class="tech-tag">Spring Boot</span>
+          <span class="tech-tag">MySQL</span>
+          <span class="tech-tag">HTML/CSS</span>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="project-icon">&#127916;</div>
+        <h3>Location de DVD</h3>
+        <p>Application concue pour permettre la location de DVD au sein d'un camping. Le projet couvrait le developpement complet avec la partie back-end (gestion des stocks, locations, clients) et la partie front-end (interface de reservation).</p>
+        <div class="project-tech">
+          <span class="tech-tag">Back-end</span>
+          <span class="tech-tag">Front-end</span>
+          <span class="tech-tag">CRUD</span>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="project-icon">&#129504;</div>
+        <h3>Structurall X</h3>
+        <p>Projet visant a convertir du code en graphe puis a retranscrire ce code dans un autre langage. J'ai participe au developpement de certaines parties de l'application, a la creation et a la redaction de la documentation pour garder le projet clair, et cela m'a permis de travailler en equipe.</p>
+        <div class="project-tech">
+          <span class="tech-tag">Graphes</span>
+          <span class="tech-tag">Conversion</span>
+          <span class="tech-tag">Documentation</span>
+          <span class="tech-tag">Travail d'equipe</span>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p> 2025 Mathis Quelen </p>
+  </footer>
+</body>
+</html>

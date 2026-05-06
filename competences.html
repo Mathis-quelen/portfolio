@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Compétences - Mathis Quelen</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #00f0ff;
+      --secondary: #7000ff;
+      --accent: #ff006e;
+      --dark: #0a0e27;
+      --darker: #050816;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--darker);
+      color: #fff;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Animated Background */
+    .bg-animation {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: linear-gradient(45deg, var(--darker) 0%, var(--dark) 100%);
+    }
+
+    .bg-animation::before {
+      content: '';
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, var(--primary) 1px, transparent 1px);
+      background-size: 50px 50px;
+      animation: gridMove 20s linear infinite;
+      opacity: 0.1;
+    }
+
+    @keyframes gridMove {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(50px, 50px); }
+    }
+
+    /* Floating particles */
+    .particle {
+      position: fixed;
+      width: 4px;
+      height: 4px;
+      background: var(--primary);
+      border-radius: 50%;
+      pointer-events: none;
+      animation: float 15s infinite;
+      opacity: 0.6;
+      box-shadow: 0 0 10px var(--primary);
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) translateX(0); }
+      25% { transform: translateY(-100px) translateX(50px); }
+      50% { transform: translateY(-200px) translateX(-50px); }
+      75% { transform: translateY(-100px) translateX(100px); }
+    }
+
+    /* Header */
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      padding: 20px 50px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      background: rgba(10, 14, 39, 0.8);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(0, 240, 255, 0.2);
+      animation: slideDown 0.8s ease;
+    }
+
+    @keyframes slideDown {
+      from { transform: translateY(-100%); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    header h1 {
+      font-size: 1.8rem;
+      background: linear-gradient(45deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      position: relative;
+    }
+
+    header h1::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 50%;
+      height: 2px;
+      background: var(--primary);
+      animation: underlineExpand 2s ease infinite;
+    }
+
+    @keyframes underlineExpand {
+      0%, 100% { width: 50%; }
+      50% { width: 100%; }
+    }
+
+    nav ul {
+      display: flex;
+      gap: 30px;
+      list-style: none;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      position: relative;
+      padding: 5px 15px;
+      transition: all 0.3s;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+    }
+
+    nav a::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 2px solid var(--primary);
+      transform: scale(0);
+      transition: transform 0.3s;
+      opacity: 0;
+    }
+
+    nav a:hover::before {
+      transform: scale(1);
+      opacity: 1;
+    }
+
+    nav a:hover {
+      color: var(--primary);
+      text-shadow: 0 0 10px var(--primary);
+    }
+
+    /* Main Content */
+    main {
+      margin-top: 120px;
+      padding: 50px;
+      min-height: 100vh;
+    }
+
+    /* Page Title */
+    .page-title {
+      text-align: center;
+      font-size: 4rem;
+      margin-bottom: 20px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-transform: uppercase;
+      letter-spacing: 5px;
+      animation: fadeInUp 1s ease;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(50px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .page-subtitle {
+      text-align: center;
+      font-size: 1.2rem;
+      color: rgba(255, 255, 255, 0.6);
+      margin-bottom: 80px;
+      animation: fadeInUp 1s ease 0.2s both;
+    }
+
+    /* Skills Grid */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+      animation: fadeInUp 1s ease 0.4s both;
+    }
+
+    .skill-category {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(0, 240, 255, 0.2);
+      border-radius: 20px;
+      padding: 40px;
+      transition: all 0.4s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .skill-category::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(45deg, var(--primary), var(--secondary), var(--accent));
+      border-radius: 20px;
+      z-index: -1;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .skill-category:hover::before {
+      opacity: 1;
+    }
+
+    .skill-category:hover {
+      transform: translateY(-15px);
+      box-shadow: 0 25px 60px rgba(0, 240, 255, 0.4);
+    }
+
+    .skill-category h3 {
+      font-size: 1.8rem;
+      color: var(--primary);
+      margin-bottom: 30px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .skill-icon {
+      font-size: 2.5rem;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    .skill-category ul {
+      list-style: none;
+    }
+
+    .skill-category li {
+      padding: 15px 0;
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 1.2rem;
+      position: relative;
+      padding-left: 35px;
+      transition: all 0.3s;
+      border-bottom: 1px solid rgba(0, 240, 255, 0.1);
+    }
+
+    .skill-category li:last-child {
+      border-bottom: none;
+    }
+
+    .skill-category li::before {
+      content: '▹';
+      position: absolute;
+      left: 0;
+      color: var(--primary);
+      font-size: 1.8rem;
+      transition: all 0.3s;
+    }
+
+    .skill-category li:hover {
+      padding-left: 45px;
+      color: var(--primary);
+    }
+
+    .skill-category li:hover::before {
+      transform: translateX(5px);
+      text-shadow: 0 0 10px var(--primary);
+    }
+
+        .tool-logo {
+      width: 1em;
+      height: 1em;
+      object-fit: contain;
+      vertical-align: -0.15em;
+      margin-right: 10px;
+      filter: drop-shadow(0 0 6px rgba(0, 240, 255, 0.35));
+    }
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 30px;
+      background: rgba(10, 14, 39, 0.8);
+      backdrop-filter: blur(10px);
+      border-top: 1px solid rgba(0, 240, 255, 0.2);
+      margin-top: 100px;
+    }
+
+    footer p {
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.9rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      header {
+        padding: 15px 20px;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      nav ul {
+        gap: 15px;
+      }
+
+      main {
+        padding: 20px;
+      }
+
+      .page-title {
+        font-size: 2.5rem;
+      }
+
+      .skills-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-animation"></div>
+  
+  <!-- Particles -->
+  <div class="particle" style="top: 10%; left: 20%; animation-delay: 0s;"></div>
+  <div class="particle" style="top: 30%; left: 80%; animation-delay: 2s;"></div>
+  <div class="particle" style="top: 60%; left: 10%; animation-delay: 4s;"></div>
+  <div class="particle" style="top: 80%; left: 70%; animation-delay: 6s;"></div>
+  <div class="particle" style="top: 40%; left: 50%; animation-delay: 3s;"></div>
+
+  <header>
+    <h1>Mes Compétences</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="projets.html">Projets</a></li>
+        <li><a href="competences.html">Compétences</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="parcours.html">Mon parcours</a></li>
+        <li><a href="fiche-suivis.html">Fiche de suivis</a></li>
+        <li><a href="veilletechno.html">Veille technologique</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <h1 class="page-title">Mes Compétences</h1>
+    <p class="page-subtitle">Technologies et outils que je maîtrise</p>
+
+    <div class="skills-grid">
+      <div class="skill-category">
+                <h3><span class="skill-icon">??</span> Langages</h3>
+        <ul>
+          <li><img class="tool-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg" alt="Logo Java">Java</li>
+          <li><img class="tool-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg" alt="Logo HTML">HTML</li>
+          <li><img class="tool-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg" alt="Logo CSS">CSS</li>
+          <li><img class="tool-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg" alt="Logo JavaScript">JavaScript</li>
+          <li><img class="tool-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mysql/mysql-original.svg" alt="Logo SQL">SQL</li>
+        </ul>
+      </div>
+
+      <div class="skill-category">
+        <h3><span class="skill-icon">🚀</span> Frameworks</h3>
+        <ul>
+          <li>Spring Boot</li>
+        </ul>
+      </div>
+
+      <div class="skill-category">
+                <h3><span class="skill-icon">&#128736;&#65039;</span> Outils</h3>
+        <ul>
+          <li><img class="tool-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-original.svg" alt="Logo Git">Git</li>
+          <li><img class="tool-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/virtualbox/virtualbox-original.svg" alt="Logo VirtualBox">VirtualBox</li>
+          <li><img class="tool-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mysql/mysql-original.svg" alt="Logo MySQL">MySQL</li>
+          <li><img class="tool-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/eclipse/eclipse-original.svg" alt="Logo Eclipse">Eclipse</li>
+        </ul>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2025 Mathis Quelen - Portfolio Futuriste</p>
+  </footer>
+</body>
+</html>

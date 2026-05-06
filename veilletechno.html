@@ -1,0 +1,479 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Veille Technologique â€“ Mathis Quelen</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* -------------------- BACKGROUND ANIME + PARTICULES -------------------- */
+        body {
+            margin: 0;
+            font-family: "Orbitron", sans-serif;
+            background: radial-gradient(circle at top, #0a0f24, #000);
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        canvas#particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+        }
+
+        :root {
+            --primary: #00f0ff;
+            --secondary: #7000ff;
+            --accent: #ff006e;
+            --dark: #0a0e27;
+            --darker: #050816;
+        }
+
+        /* -------------------- NAV HEADER -------------------- */
+        .site-header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(10, 14, 39, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 240, 255, 0.2);
+            animation: slideDown 0.8s ease;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .site-header h1 {
+            font-size: 1.8rem;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+        }
+
+        .site-header h1::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 50%;
+            height: 2px;
+            background: var(--primary);
+            animation: underlineExpand 2s ease infinite;
+        }
+
+        @keyframes underlineExpand {
+            0%, 100% { width: 50%; }
+            50% { width: 100%; }
+        }
+
+        nav ul {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            position: relative;
+            padding: 5px 15px;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        nav a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 2px solid var(--primary);
+            transform: scale(0);
+            transition: transform 0.3s;
+            opacity: 0;
+        }
+
+        nav a:hover::before {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        nav a:hover {
+            color: var(--primary);
+            text-shadow: 0 0 10px var(--primary);
+        }
+
+        /* -------------------- PAGE HERO -------------------- */
+        .page-hero {
+            text-align: center;
+            padding: 160px 20px 30px;
+        }
+
+        .page-hero h2 {
+            font-size: 3rem;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            color: var(--primary);
+            text-shadow: 0 0 15px var(--primary);
+            margin: 0;
+        }
+
+        /* -------------------- CONTENT CARD -------------------- */
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .card {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(77, 166, 255, 0.4);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 40px;
+            box-shadow: 0 0 15px rgba(77, 166, 255, 0.2);
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            box-shadow: 0 0 30px rgba(77, 166, 255, 0.5);
+            transform: scale(1.02);
+        }
+
+        h2 {
+            color: var(--primary);
+            text-shadow: 0 0 12px var(--primary);
+            border-left: 4px solid var(--primary);
+            padding-left: 10px;
+        }
+
+        .page-hero h2 {
+            border-left: none;
+            padding-left: 0;
+        }
+
+        p, li {
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        ul {
+            margin-left: 20px;
+        }
+
+        .section-image {
+            width: 100%;
+            border-radius: 12px;
+            margin: 20px 0 10px;
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.15);
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .image-grid img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.12);
+        }
+
+        /* -------------------- FOOTER -------------------- */
+        footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9rem;
+            opacity: 0.6;
+        }
+
+        @media (max-width: 900px) {
+            .site-header {
+                padding: 15px 20px;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            nav ul {
+                gap: 15px;
+                justify-content: center;
+            }
+
+            .page-hero h2 {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="particles"></canvas>
+
+    <header class="site-header">
+        <h1>Mathis Quelen</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="projets.html">Projets</a></li>
+                <li><a href="competences.html">Competences</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="parcours.html">Mon parcours</a></li>
+                <li><a href="fiche-suivis.html">Fiche de suivis</a></li>
+                <li><a href="veilletechno.html">Veille technologique</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="page-hero">
+        <h2>Veille Technologique</h2>
+    </div>
+    <div class="container">
+        <div class="card">
+            <h2>🔎 Veille informatique – Réalité augmentée dans les armées</h2>
+
+            <h3>🧭 Rappel du principe</h3>
+            <p>
+                La réalité augmentée militaire consiste à afficher des informations numériques (positions, cartes,
+                menaces, données drones) directement dans le champ de vision du soldat grâce à un casque ou des
+                lunettes connectées.
+            </p>
+            <p>Elle améliore :</p>
+            <ul>
+                <li>la conscience de la situation</li>
+                <li>la coordination des unités</li>
+                <li>la prise de décision en temps réel</li>
+                <li>la sécurité du soldat</li>
+            </ul>
+            <p>Elle est aujourd’hui intégrée au concept de soldat augmenté.</p>
+
+            <h3>🎯 Cas concrets d’utilisation</h3>
+            <h3>1️⃣ Combat terrestre : vision du champ de bataille en temps réel</h3>
+            <p>Avec les casques comme EagleEye ou IVAS, le soldat voit :</p>
+            <ul>
+                <li>la position des alliés</li>
+                <li>la position des ennemis</li>
+                <li>les drones en vol</li>
+                <li>les objectifs de mission</li>
+                <li>une carte 3D du terrain</li>
+            </ul>
+            <p>
+                Toutes ces informations sont affichées directement devant ses yeux via un HUD (Head-Up Display).
+            </p>
+            <p>
+                ➡️ Exemple concret : un chef d’escouade peut savoir où se trouve chaque soldat sans radio, ce qui évite
+                les tirs amis et améliore la coordination.
+            </p>
+
+            <h3>2️⃣ Détection des menaces invisibles</h3>
+            <p>Les nouveaux casques intègrent :</p>
+            <ul>
+                <li>vision nocturne</li>
+                <li>vision thermique</li>
+                <li>détection de tirs</li>
+                <li>localisation de signaux radio ennemis</li>
+            </ul>
+            <p>
+                Le système peut même afficher un mode “rétroviseur virtuel” pour voir derrière soi sans tourner la tête.
+            </p>
+            <p>
+                ➡️ Cas réel : sur un terrain urbain, un soldat peut repérer un ennemi caché dans le noir ou derrière un
+                mur grâce aux capteurs.
+            </p>
+
+            <h3>3️⃣ Commandement de drones depuis le casque</h3>
+            <p>Les systèmes de RA permettent de :</p>
+            <ul>
+                <li>piloter un drone</li>
+                <li>voir son flux vidéo</li>
+                <li>marquer une cible</li>
+                <li>transmettre l’information à l’unité</li>
+            </ul>
+            <p>Tout cela sans lâcher son arme.</p>
+            <p>
+                ➡️ Cas concret : un soldat en reconnaissance peut envoyer un drone au-dessus d’un bâtiment et voir
+                l’intérieur en direct dans son casque.
+            </p>
+
+            <h3>4️⃣ Communication silencieuse entre soldats</h3>
+            <p>La RA permet d’envoyer :</p>
+            <ul>
+                <li>des ordres visuels</li>
+                <li>des icônes</li>
+                <li>des trajectoires à suivre</li>
+            </ul>
+            <p>➡️ Avantage : pas besoin de parler → moins détectable par l’ennemi.</p>
+            <p>Les données circulent en temps réel entre tous les membres de l’unité.</p>
+
+            <h3>5️⃣ Prise de décision assistée par IA</h3>
+            <p>Les casques modernes utilisent une IA (comme Lattice) qui :</p>
+            <ul>
+                <li>fusionne les données des capteurs, drones et véhicules</li>
+                <li>analyse les menaces</li>
+                <li>propose des actions</li>
+            </ul>
+            <p>
+                ➡️ Le soldat reçoit une vision synthétique du champ de bataille mise à jour en continu.
+            </p>
+
+            <h3>6️⃣ Entraînement militaire en réalité augmentée</h3>
+            <p>La RA est aussi utilisée pour l’entraînement :</p>
+            <ul>
+                <li>simulation de combat sans tirer de vraies munitions</li>
+                <li>ennemis virtuels visibles dans le casque</li>
+                <li>entraînement tactique en conditions réelles</li>
+            </ul>
+            <p>
+                En France, la simulation embarquée permet à un véhicule comme le Jaguar de s’entraîner dans un
+                environnement virtuel tout en restant immobile.
+            </p>
+            <p>➡️ Avantages :</p>
+            <ul>
+                <li>moins cher</li>
+                <li>moins dangereux</li>
+                <li>entraînement plus fréquent</li>
+            </ul>
+
+            <h3>7️⃣ Formation médicale et rééducation des soldats</h3>
+            <p>Les technologies immersives peuvent être utilisées pour :</p>
+            <ul>
+                <li>réapprendre des mouvements après blessure</li>
+                <li>traiter des traumatismes psychologiques</li>
+                <li>simuler des situations de stress contrôlées</li>
+            </ul>
+
+            <h3>📅 Avancées majeures (rappel chronologique)</h3>
+            <p><strong>🔹 2023 – Tests opérationnels du casque IVAS</strong></p>
+            <p>Casque de RA basé sur HoloLens pour afficher données tactiques et vision thermique.</p>
+
+            <p><strong>🔹 2024 – Difficultés et remise en question du programme</strong></p>
+            <p>Problèmes d’ergonomie et de fiabilité → recherche de nouveaux industriels.</p>
+
+            <p><strong>🔹 29 mai 2025 – Partenariat Meta / Anduril</strong></p>
+            <p>Développement de systèmes XR pour améliorer la prise de décision en combat.</p>
+
+            <p><strong>🔹 13 octobre 2025 – Présentation du casque EagleEye</strong></p>
+            <p>Casque capable de :</p>
+            <ul>
+                <li>afficher alliés/ennemis</li>
+                <li>détecter menaces</li>
+                <li>contrôler drones</li>
+                <li>afficher cartes et ordres de mission</li>
+            </ul>
+
+            <p><strong>🔹 Octobre 2025 – Soldat connecté en réseau</strong></p>
+            <p>Le casque transforme chaque soldat en nœud d’un système de combat numérique.</p>
+
+            <h3>🧠 Limites et problèmes actuels</h3>
+            <ul>
+                <li>❗ Poids et confort du casque</li>
+                <li>❗ Autonomie de la batterie</li>
+                <li>❗ Risque de surcharge d’informations</li>
+                <li>❗ Dépendance aux réseaux et au cloud</li>
+                <li>❗ Coût très élevé (programmes à plusieurs milliards)</li>
+            </ul>
+
+            <h3>📊 Bilan</h3>
+            <p>La réalité augmentée militaire permet :</p>
+            <ul>
+                <li>✔ voir plus loin et plus vite</li>
+                <li>✔ coordonner les unités en temps réel</li>
+                <li>✔ réduire les pertes</li>
+                <li>✔ améliorer l’entraînement</li>
+            </ul>
+            <p>
+                Elle transforme le soldat en système connecté intégré à un réseau de capteurs, drones et IA.
+            </p>
+            <p>
+                On parle désormais de guerre numérique augmentée, où l’information est aussi importante que l’arme.
+            </p>
+        </div>
+    </div>
+    <footer>
+        Â© 2025 - Veille Technologique par Mathis Quelen
+    </footer>
+
+    <script>
+        // -------------------- PARTICLE EFFECT --------------------
+        const canvas = document.getElementById('particles');
+        const ctx = canvas.getContext('2d');
+        canvas.width = innerWidth;
+        canvas.height = innerHeight;
+
+        const particles = [];
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 1;
+                this.speedX = (Math.random() - 0.5) * 0.5;
+                this.speedY = (Math.random() - 0.5) * 0.5;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.x < 0) this.x = canvas.width;
+                if (this.x > canvas.width) this.x = 0;
+                if (this.y < 0) this.y = canvas.height;
+                if (this.y > canvas.height) this.y = 0;
+            }
+            draw() {
+                ctx.fillStyle = 'rgba(77,166,255,0.7)';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            for (let i = 0; i < 150; i++) particles.push(new Particle());
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animate);
+        }
+
+        initParticles();
+        animate();
+    </script>
+</body>
+</html>
+

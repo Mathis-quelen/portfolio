@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mathis Quelen - Mon Parcours</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #00f0ff;
+      --secondary: #7000ff;
+      --accent: #ff006e;
+      --dark: #0a0e27;
+      --darker: #050816;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--darker);
+      color: #fff;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    .bg-animation {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: linear-gradient(45deg, var(--darker) 0%, var(--dark) 100%);
+    }
+
+    .bg-animation::before {
+      content: '';
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, var(--primary) 1px, transparent 1px);
+      background-size: 50px 50px;
+      animation: gridMove 20s linear infinite;
+      opacity: 0.1;
+    }
+
+    @keyframes gridMove {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(50px, 50px); }
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      padding: 20px 50px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      background: rgba(10, 14, 39, 0.8);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(0, 240, 255, 0.2);
+      animation: slideDown 0.8s ease;
+    }
+
+    @keyframes slideDown {
+      from { transform: translateY(-100%); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      background: linear-gradient(45deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      position: relative;
+    }
+
+    h1::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 50%;
+      height: 2px;
+      background: var(--primary);
+      animation: underlineExpand 2s ease infinite;
+    }
+
+    @keyframes underlineExpand {
+      0%, 100% { width: 50%; }
+      50% { width: 100%; }
+    }
+
+    nav ul {
+      display: flex;
+      gap: 30px;
+      list-style: none;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      position: relative;
+      padding: 5px 15px;
+      transition: all 0.3s;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+    }
+
+    nav a::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 2px solid var(--primary);
+      transform: scale(0);
+      transition: transform 0.3s;
+      opacity: 0;
+    }
+
+    nav a:hover::before {
+      transform: scale(1);
+      opacity: 1;
+    }
+
+    nav a:hover {
+      color: var(--primary);
+      text-shadow: 0 0 10px var(--primary);
+    }
+
+    main {
+      margin-top: 100px;
+      padding: 50px;
+      min-height: 100vh;
+    }
+
+    .section-title {
+      font-size: 2.5rem;
+      text-align: center;
+      margin-bottom: 50px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .timeline {
+      max-width: 1000px;
+      margin: 0 auto;
+      position: relative;
+      padding-left: 30px;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 20px;
+      top: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--primary);
+    }
+
+    .timeline-event {
+      position: relative;
+      margin-bottom: 50px;
+      padding-left: 40px;
+    }
+
+    .timeline-event::before {
+      content: '';
+      position: absolute;
+      left: 12px;
+      top: 0;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--primary);
+      border: 2px solid var(--secondary);
+    }
+
+    .timeline-event h3 {
+      font-size: 1.5rem;
+      color: var(--accent);
+      margin-bottom: 5px;
+    }
+
+    .timeline-event span {
+      font-size: 0.9rem;
+      color: var(--primary);
+      margin-bottom: 10px;
+      display: inline-block;
+    }
+
+    .timeline-event p {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      background: rgba(10, 14, 39, 0.8);
+      backdrop-filter: blur(10px);
+      border-top: 1px solid rgba(0, 240, 255, 0.2);
+      margin-top: 100px;
+    }
+
+    footer p {
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 768px) {
+      header {
+        padding: 15px 20px;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      nav ul {
+        gap: 15px;
+      }
+
+      main {
+        padding: 20px;
+      }
+
+      .section-title {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-animation"></div>
+
+  <header>
+    <h1>Mathis Quelen</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="projets.html">Projets</a></li>
+        <li><a href="competences.html">Compétences</a></li>
+        <li><a href="parcours.html">Parcours</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="fiche-suivis.html">Fiche de suivis</a></li>
+        <li><a href="veilletechno.html">Veille technologique</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <h2 class="section-title">Mon Parcours</h2>
+    <div class="timeline">
+      <div class="timeline-event">
+        <h3>Bac STI2D - Lycée Ferdinand Buisson, Elbeuf</h3>
+        <span>2021 - 2024</span>
+        <p>Formation en sciences et technologies de l'industrie et du développement durable. J'y ai acquis des compétences en programmation, électronique et gestion de projets techniques.</p>
+      </div>
+      <div class="timeline-event">
+        <h3>BTS SIO SLAM - Elbeuf</h3>
+        <span>2024 - 2026</span>
+        <p>Actuellement étudiant en BTS Services Informatiques aux Organisations, spécialité SLAM. Développement web et mobile, gestion de bases de données et projets en équipe sont au c�"ur de ma formation.</p>
+      </div>
+      <div class="timeline-event">
+        <h3>Projets Réalisés</h3>
+        <span>2024 - 2025</span>
+        <p>J'ai travaillé sur divers projets, dont :</p>
+        <ul>
+          <li>projet de bac : j'ai realisé seul le developpement de casier automatique pour mon baccalaureat , notamement la mise en place d'un moyen de paiement , d'ouverture et de fermeture du casier</li> 
+          <li>Visualisation et creation 3D de bâtiments ou d'objet technique avec animation à partir de solidWorks </li>
+        </ul>
+      </div>
+      <div class="timeline-event">
+        <h3>Expériences et Activités</h3>
+        <span>Depuis 2021</span>
+        <p>Pratique du volley-ball en club (niveau regional) et aujourd'hui en Pre-national avec le club de la londe , je donne aussi entrainement a certains jeune de mon club a l'aigle , passion pour les jeux vidéo, travail en équipe et curiosité pour les nouvelles technologies.</p>
+      </div>
+      <div class="timeline-event">
+        <h3>Projet futur - Armée de terre </h3>
+        <span>2026</span>
+        <p>Je souhaite rejoindre l'armée de terre pour suivre une formation de parachutiste.
+        <p>je veux donc m'engager et j'ai fait toute les demarches , je passe donc mes test début juillet </p>
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2025 Mathis Quelen </p>
+  </footer>
+</body>
+</html>
